@@ -1,5 +1,8 @@
 package bandeau;
 
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
+
 public class ExerciceAvecThreads {
 
     public static void main(String[] args) {
@@ -15,11 +18,14 @@ public class ExerciceAvecThreads {
         Bandeau b1 = new Bandeau();
         Bandeau b2 = new Bandeau();
         Bandeau b3 = new Bandeau();
+        Lock bandeauLock1 = new ReentrantLock();
+        Lock bandeauLock2 = new ReentrantLock();
+        Lock bandeauLock3 = new ReentrantLock();
         System.out.println("CTRL-C pour terminer le programme");
         // On doit jouer le scénario en même temps sur les trois bandeaux
-       BandeauVerrouille threadB1 = new BandeauVerrouille(b1, s);
-        BandeauVerrouille threadB2 = new BandeauVerrouille(b2, s2);
-        BandeauVerrouille threadB3 = new BandeauVerrouille(b3, s);
+       BandeauVerrouille threadB1 = new BandeauVerrouille(b1, s, bandeauLock1 );
+        BandeauVerrouille threadB2 = new BandeauVerrouille(b2, s2, bandeauLock2);
+        BandeauVerrouille threadB3 = new BandeauVerrouille(b3, s, bandeauLock3);
 
         threadB1.start();
         threadB2.start();
