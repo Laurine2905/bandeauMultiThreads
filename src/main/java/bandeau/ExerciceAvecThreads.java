@@ -10,6 +10,7 @@ public class ExerciceAvecThreads {
     public void exemple() {
 
         Scenario s = makeScenario();
+        Scenario s2 = makeScenario2();
         // On cree les bandeaux
         Bandeau b1 = new Bandeau();
         Bandeau b2 = new Bandeau();
@@ -17,7 +18,7 @@ public class ExerciceAvecThreads {
         System.out.println("CTRL-C pour terminer le programme");
         // On doit jouer le scénario en même temps sur les trois bandeaux
        BandeauVerrouille threadB1 = new BandeauVerrouille(b1, s);
-        BandeauVerrouille threadB2 = new BandeauVerrouille(b2, s);
+        BandeauVerrouille threadB2 = new BandeauVerrouille(b2, s2);
         BandeauVerrouille threadB3 = new BandeauVerrouille(b3, s);
 
         threadB1.start();
@@ -25,6 +26,7 @@ public class ExerciceAvecThreads {
         threadB3.start();
 
         try{
+            // bloque le thread
             threadB1.join();
             threadB2.join();
             threadB3.join();
@@ -32,7 +34,6 @@ public class ExerciceAvecThreads {
         catch (InterruptedException e){
             e.printStackTrace();
         }
-        s.playOn(b1);
     }
 
     private Scenario makeScenario() {
@@ -46,6 +47,21 @@ public class ExerciceAvecThreads {
         // s.addEffect(new FontEnumerator(10), 1);
         // s.addEffect(new Rainbow("Comme c'est joli !", 30), 1);
         s.addEffect(new Rotate("2 tours à droite", 180, 4000, true), 2);
+        // s.addEffect(new Rotate("2 tours à gauche", 180, 4000, false), 2);
+        return s;
+    }
+
+    private Scenario makeScenario2() {
+        // On crée un scenario
+        Scenario s = new Scenario();
+        // On lui ajoute des effets
+        //s.addEffect(new RandomEffect("Le jeu du pendu", 700), 1);
+        s.addEffect(new TeleType("Je m'affiche caractère par caractère", 100), 1);
+        s.addEffect(new Blink("Je clignote 10x", 100), 10);
+        // s.addEffect(new Zoom("Je zoome", 50), 1);
+        // s.addEffect(new FontEnumerator(10), 1);
+        // s.addEffect(new Rainbow("Comme c'est joli !", 30), 1);
+        //s.addEffect(new Rotate("2 tours à droite", 180, 4000, true), 2);
         // s.addEffect(new Rotate("2 tours à gauche", 180, 4000, false), 2);
         return s;
     }
